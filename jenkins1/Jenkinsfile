@@ -1,20 +1,19 @@
 pipeline {
-    agent {
-        docker { image 'node:16-alpine' } 
-    }
+    agent any
+
     stages {
+
         stage('Test') {
             steps {
-                sh 'node --version'
+                bat 'node --version'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'kubectl apply -f  deployment.yml'
+                bat 'kubectl apply -f deployment.yml'
             }
         }
 
-        
     }
 }
