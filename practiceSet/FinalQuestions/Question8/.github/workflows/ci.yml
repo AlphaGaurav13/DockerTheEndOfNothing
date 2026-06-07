@@ -21,10 +21,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
+        working-directory: practiceSet/FinalQuestions/Question8
         run: |
-          docker build \
-          -t ${{ secrets.DOCKER_USERNAME }}/question8-app:v1 \
-          ./practiceSet/FinalQuestions/Question8
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/question8-app:v1 .
 
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/question8-app:v1
