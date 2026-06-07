@@ -1,12 +1,8 @@
 pipeline {
     agent any
+
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                url: 'https://github.com/AlphaGaurav13/DockerTheEndOfNothing'
-            }
-        }
+
         stage('Compile') {
             steps {
                 dir('practiceSet/Question3') {
@@ -14,34 +10,44 @@ pipeline {
                 }
             }
         }
+
         stage('Test') {
             steps {
-                bat 'mvn test'
+                dir('practiceSet/Question3') {
+                    bat 'mvn test'
+                }
             }
         }
 
         stage('Package') {
             steps {
-                bat 'mvn package'
+                dir('practiceSet/Question3') {
+                    bat 'mvn package'
+                }
             }
         }
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t app:v1'
+                dir('practiceSet/Question3') {
+                    bat 'docker build -t app:v1 .'
+                }
             }
         }
-        stage('Docker tag') {
+
+        stage('Docker Tag') {
             steps {
                 bat 'docker tag app:v1 gaurious/app:v1'
             }
         }
+
         stage('Docker Push') {
             steps {
                 bat 'docker push gaurious/app:v1'
             }
         }
     }
+
     post {
         always {
             junit '**/target/surefire-reports/*.xml'
