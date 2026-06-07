@@ -3,8 +3,45 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git ''
+                git 'https://github.com/AlphaGaurav13/DockerTheEndOfNothing'
             }
+        }
+        stage('Compile') {
+            steps {
+                bat 'mvn compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'mvn package'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                bat 'docker build -t app:v1'
+            }
+        }
+        stage('Docker tag') {
+            steps {
+                bat 'docker tag app:v1 gaurious/app:v1'
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                bat 'docker push gaurious/app:v1'
+            }
+        }
+    }
+    post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
         }
     }
 }
