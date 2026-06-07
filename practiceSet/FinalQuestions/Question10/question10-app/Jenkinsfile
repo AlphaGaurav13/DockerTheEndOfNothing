@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                dir('practiceSet/FinalQuestions/Question10/question10-app') {
+                    bat 'mvn clean compile'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('practiceSet/FinalQuestions/Question10/question10-app') {
+                    bat 'mvn test'
+                }
+                
+            }
+        }
+
+        stage('Package') {
+            steps {
+                dir('practiceSet/FinalQuestions/Question10/question10-app') {
+                    bat 'mvn package'
+                }
+                
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                dir('practiceSet/FinalQuestions/Question10/question10-app') {
+                    bat 'docker build -t gaurious/question10-app:v1 .'
+                }
+                
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                dir('practiceSet/FinalQuestions/Question10/question10-app') {
+                    bat 'docker push gaurious/question10-app:v1'
+                }
+                
+            }
+        }
+        stage('Deploy') {
+            steps {
+                bat 'ssh gaurav@172.16.227.71 "docker pull gaurious/question10-app:v1 && docker run -d --name question10-app gaurious/question10-app:v1"'
+            }
+        }
+    }
+}
