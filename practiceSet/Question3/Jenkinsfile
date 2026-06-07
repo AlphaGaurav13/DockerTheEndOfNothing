@@ -9,7 +9,9 @@ pipeline {
         }
         stage('Compile') {
             steps {
-                bat 'mvn compile'
+                dir('practiceSet/Question3') {
+                    bat 'mvn compile'
+                }
             }
         }
         stage('Test') {
