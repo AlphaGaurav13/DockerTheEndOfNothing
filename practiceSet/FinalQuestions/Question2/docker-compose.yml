@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  mysql-db:
+    image: mysql:8
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: companydb
+    ports:
+      - "3306:3306"
+  backend-api:
+    image: nginx
+    container_name: backend-api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql-db
+    
+
