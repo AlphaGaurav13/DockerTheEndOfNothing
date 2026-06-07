@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                bat 'mvn build'
+            }
+        }
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'mvn package'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                bat 'docker build -t question9-app:v1 .'
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                bat 'Docker push gaurious/question9-app:v1'
+            }
+        }
+    }
+}
